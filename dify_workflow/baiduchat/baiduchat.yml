@@ -1,0 +1,338 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: baiduchat
+  use_icon_as_answer_icon: false
+kind: app
+version: 0.1.5
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        sourceType: start
+        targetType: if-else
+      id: 1740622703310-source-1740622771232-target
+      source: '1740622703310'
+      sourceHandle: source
+      target: '1740622771232'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: tool
+        targetType: end
+      id: 1740622724502-source-1740622865359-target
+      source: '1740622724502'
+      sourceHandle: source
+      target: '1740622865359'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: if-else
+        targetType: tool
+      id: 1740622771232-true-1740622956660-target
+      source: '1740622771232'
+      sourceHandle: 'true'
+      target: '1740622956660'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: tool
+        targetType: tool
+      id: 1740622956660-source-1740622724502-target
+      source: '1740622956660'
+      sourceHandle: source
+      target: '1740622724502'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: if-else
+        targetType: tool
+      id: 1740622771232-false-1740623386622-target
+      source: '1740622771232'
+      sourceHandle: 'false'
+      target: '1740623386622'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: tool
+        targetType: end
+      id: 1740623386622-source-1740623028714-target
+      source: '1740623386622'
+      sourceHandle: source
+      target: '1740623028714'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: true
+        title: 开始
+        type: start
+        variables:
+        - label: cookie_name
+          max_length: 256
+          options: []
+          required: false
+          type: text-input
+          variable: cookie_name
+        - label: chat_input
+          max_length: 48324
+          options: []
+          required: true
+          type: paragraph
+          variable: chat_input
+        - label: deepseek
+          max_length: 48
+          options: []
+          required: true
+          type: text-input
+          variable: deepseek
+        - label: internet
+          max_length: 48
+          options: []
+          required: true
+          type: text-input
+          variable: internet
+      height: 167
+      id: '1740622703310'
+      position:
+        x: 17
+        y: 220
+      positionAbsolute:
+        x: 17
+        y: 220
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        provider_id: cbb7ab35-9752-4d04-b4fb-0591e07d374d
+        provider_name: 百度cookie登录
+        provider_type: workflow
+        selected: false
+        title: 百度cookie登录
+        tool_configurations: {}
+        tool_label: 百度cookie登录
+        tool_name: baidu_chat_loginwithcookie
+        tool_parameters:
+          cookie_name:
+            type: mixed
+            value: '{{#1740622703310.cookie_name#}}'
+        type: tool
+      height: 53
+      id: '1740622724502'
+      position:
+        x: 806.0056915283203
+        y: 145.00568389892578
+      positionAbsolute:
+        x: 806.0056915283203
+        y: 145.00568389892578
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: not empty
+            id: f0967a64-ed57-49d6-ac6d-7d61716d8bdd
+            value: ''
+            varType: string
+            variable_selector:
+            - '1740622703310'
+            - cookie_name
+          id: 'true'
+          logical_operator: and
+        desc: ''
+        selected: false
+        title: 条件分支
+        type: if-else
+      height: 125
+      id: '1740622771232'
+      position:
+        x: 288.0056915283203
+        y: 203
+      positionAbsolute:
+        x: 288.0056915283203
+        y: 203
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1740622956660'
+          - text
+          variable: text
+        - value_selector:
+          - '1740622724502'
+          - text
+          variable: text
+        selected: false
+        title: 结束
+        type: end
+      height: 115
+      id: '1740622865359'
+      position:
+        x: 1070.0056915283203
+        y: 145.00568389892578
+      positionAbsolute:
+        x: 1070.0056915283203
+        y: 145.00568389892578
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        provider_id: eed5bde9-1aba-4291-b30c-e2db3a0c278e
+        provider_name: 百度聊天机器人初始化
+        provider_type: workflow
+        selected: false
+        title: 百度聊天机器人初始化
+        tool_configurations: {}
+        tool_label: 百度聊天机器人初始化
+        tool_name: baidu_chat_init
+        tool_parameters: {}
+        type: tool
+      height: 53
+      id: '1740622956660'
+      position:
+        x: 553.0056915283203
+        y: 145.00568389892578
+      positionAbsolute:
+        x: 553.0056915283203
+        y: 145.00568389892578
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1740623386622'
+          - text
+          variable: text
+        selected: false
+        title: 结束 2
+        type: end
+      height: 89
+      id: '1740623028714'
+      position:
+        x: 962.0056915283203
+        y: 314.0056838989258
+      positionAbsolute:
+        x: 962.0056915283203
+        y: 314.0056838989258
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        provider_id: fbf715c3-06da-4d86-9038-e142e99c5be4
+        provider_name: 百度聊天
+        provider_type: workflow
+        selected: false
+        title: 百度聊天
+        tool_configurations: {}
+        tool_label: 百度聊天
+        tool_name: baidu_chat
+        tool_parameters:
+          chat_input:
+            type: mixed
+            value: '{{#1740622703310.chat_input#}}'
+          deepseek:
+            type: mixed
+            value: '{{#1740622703310.deepseek#}}'
+          internet:
+            type: mixed
+            value: '{{#1740622703310.internet#}}'
+        type: tool
+      height: 53
+      id: '1740623386622'
+      position:
+        x: 658.0056915283203
+        y: 309.0056838989258
+      positionAbsolute:
+        x: 658.0056915283203
+        y: 309.0056838989258
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    viewport:
+      x: -119.43012066140454
+      y: 92.65759094859914
+      zoom: 0.9381634999795962

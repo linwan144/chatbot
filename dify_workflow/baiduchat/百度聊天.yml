@@ -1,0 +1,200 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: 百度聊天
+  use_icon_as_answer_icon: false
+kind: app
+version: 0.1.5
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        sourceType: start
+        targetType: http-request
+      id: 1740556978280-source-1740561946674-target
+      source: '1740556978280'
+      sourceHandle: source
+      target: '1740561946674'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: http-request
+        targetType: end
+      id: 1740561946674-source-1740557114405-target
+      source: '1740561946674'
+      sourceHandle: source
+      target: '1740557114405'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - label: deepseek
+          max_length: 256
+          options: []
+          required: true
+          type: text-input
+          variable: deepseek
+        - label: chat_input
+          max_length: 256
+          options: []
+          required: true
+          type: text-input
+          variable: chat_input
+        - label: internet
+          max_length: 256
+          options: []
+          required: true
+          type: text-input
+          variable: internet
+      height: 141
+      id: '1740556978280'
+      position:
+        x: 30
+        y: 270.5
+      positionAbsolute:
+        x: 30
+        y: 270.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1740561946674'
+          - body
+          variable: body
+        - value_selector:
+          - '1740561946674'
+          - status_code
+          variable: status_code
+        selected: true
+        title: 结束
+        type: end
+      height: 115
+      id: '1740557114405'
+      position:
+        x: 622.9771056345921
+        y: 264.86641461297205
+      positionAbsolute:
+        x: 622.9771056345921
+        y: 264.86641461297205
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data:
+          - id: key-value-6
+            key: ''
+            type: text
+            value: '{
+
+              "chat_input": "{{#1740556978280.chat_input#}}",
+
+              "deepseek": "{{#1740556978280.deepseek#}}",
+
+              "internet": "{{#1740556978280.internet#}}"
+
+              }'
+          type: json
+        desc: ''
+        headers: ''
+        method: post
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: false
+          retry_interval: 100
+        selected: false
+        timeout:
+          connect: 300
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+          read: 600
+          write: 600
+        title: HTTP 请求 2
+        type: http-request
+        url: http://192.168.110.39:1111/chat/
+        variables: []
+      height: 109
+      id: '1740561946674'
+      position:
+        x: 334
+        y: 289.0393181727915
+      positionAbsolute:
+        x: 334
+        y: 289.0393181727915
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    viewport:
+      x: -16.931239029406925
+      y: -120.33348210742838
+      zoom: 1.0650411039860619

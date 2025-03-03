@@ -1,0 +1,181 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: 百度保存cookie
+  use_icon_as_answer_icon: false
+kind: app
+version: 0.1.5
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        sourceType: start
+        targetType: http-request
+      id: 1740551357049-source-1740551366064-target
+      source: '1740551357049'
+      sourceHandle: source
+      target: '1740551366064'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: http-request
+        targetType: end
+      id: 1740551366064-source-1740551446748-target
+      source: '1740551366064'
+      sourceHandle: source
+      target: '1740551446748'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - label: cookie_name
+          max_length: 256
+          options: []
+          required: true
+          type: text-input
+          variable: cookie_name
+      height: 89
+      id: '1740551357049'
+      position:
+        x: 79
+        y: 281
+      positionAbsolute:
+        x: 79
+        y: 281
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data:
+          - id: key-value-1
+            key: ''
+            type: text
+            value: '{
+
+              "cookie_name": "{{#1740551357049.cookie_name#}}"
+
+              }'
+          type: json
+        desc: ''
+        headers: ''
+        method: post
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: false
+          retry_interval: 100
+        selected: false
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: HTTP 请求
+        type: http-request
+        url: http://192.168.110.39:1111/save_cookies/
+        variables: []
+      height: 109
+      id: '1740551366064'
+      position:
+        x: 414.0056915283203
+        y: 261.0056838989258
+      positionAbsolute:
+        x: 414.0056915283203
+        y: 261.0056838989258
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1740551366064'
+          - body
+          variable: body
+        - value_selector:
+          - '1740551366064'
+          - status_code
+          variable: status_code
+        selected: true
+        title: 结束
+        type: end
+      height: 115
+      id: '1740551446748'
+      position:
+        x: 743.0056915283203
+        y: 287.0056838989258
+      positionAbsolute:
+        x: 743.0056915283203
+        y: 287.0056838989258
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    viewport:
+      x: -26
+      y: -53
+      zoom: 1
