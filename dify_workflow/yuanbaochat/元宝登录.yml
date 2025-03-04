@@ -1,0 +1,386 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: 元宝登录
+  use_icon_as_answer_icon: false
+kind: app
+version: 0.1.5
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        sourceType: start
+        targetType: if-else
+      id: 1740993698490-source-1740993710713-target
+      source: '1740993698490'
+      sourceHandle: source
+      target: '1740993710713'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: if-else
+        targetType: http-request
+      id: 1740993710713-true-1740993925575-target
+      source: '1740993710713'
+      sourceHandle: 'true'
+      target: '1740993925575'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: http-request
+        targetType: http-request
+      id: 1740993925575-source-1740993705959-target
+      source: '1740993925575'
+      sourceHandle: source
+      target: '1740993705959'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: http-request
+        targetType: end
+      id: 1740993705959-source-1740993977906-target
+      source: '1740993705959'
+      sourceHandle: source
+      target: '1740993977906'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: if-else
+        targetType: http-request
+      id: 1740993710713-false-1740994031833-target
+      source: '1740993710713'
+      sourceHandle: 'false'
+      target: '1740994031833'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: http-request
+        targetType: end
+      id: 1740994031833-source-1740993980778-target
+      source: '1740994031833'
+      sourceHandle: source
+      target: '1740993980778'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - label: 手机号
+          max_length: 256
+          options: []
+          required: true
+          type: text-input
+          variable: username
+        - label: 验证码
+          max_length: 256
+          options: []
+          required: false
+          type: text-input
+          variable: verify_code
+      height: 115
+      id: '1740993698490'
+      position:
+        x: 30
+        y: 283.5
+      positionAbsolute:
+        x: 30
+        y: 283.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data:
+          - id: key-value-15
+            key: ''
+            type: text
+            value: '{
+
+              "username": "{{#1740993698490.username#}}",
+
+              "verify_code":"",
+
+              "chat_input":""
+
+              }'
+          type: json
+        desc: ''
+        headers: ''
+        method: post
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: false
+          retry_interval: 100
+        selected: false
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: HTTP 请求
+        type: http-request
+        url: http://192.168.110.39:2222/login/
+        variables: []
+      height: 109
+      id: '1740993705959'
+      position:
+        x: 942
+        y: 283.5
+      positionAbsolute:
+        x: 942
+        y: 283.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: empty
+            id: a6634952-c932-498a-a44e-272c6050f15c
+            value: ''
+            varType: string
+            variable_selector:
+            - '1740993698490'
+            - verify_code
+          id: 'true'
+          logical_operator: and
+        desc: ''
+        selected: false
+        title: 条件分支
+        type: if-else
+      height: 125
+      id: '1740993710713'
+      position:
+        x: 334
+        y: 283.5
+      positionAbsolute:
+        x: 334
+        y: 283.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data: []
+          type: none
+        desc: ''
+        headers: ''
+        method: post
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: false
+          retry_interval: 100
+        selected: false
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: HTTP 请求 2
+        type: http-request
+        url: http://192.168.110.39:2222/init_chat/
+        variables: []
+      height: 109
+      id: '1740993925575'
+      position:
+        x: 638
+        y: 283.5
+      positionAbsolute:
+        x: 638
+        y: 283.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1740993705959'
+          - status_code
+          variable: status_code1
+        - value_selector:
+          - '1740993705959'
+          - body
+          variable: body1
+        - value_selector:
+          - '1740993925575'
+          - status_code
+          variable: status_code
+        - value_selector:
+          - '1740993925575'
+          - body
+          variable: body
+        selected: true
+        title: 结束
+        type: end
+      height: 167
+      id: '1740993977906'
+      position:
+        x: 1246
+        y: 283.5
+      positionAbsolute:
+        x: 1246
+        y: 283.5
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1740994031833'
+          - status_code
+          variable: status_code
+        - value_selector:
+          - '1740994031833'
+          - body
+          variable: body
+        selected: false
+        title: 结束 2
+        type: end
+      height: 115
+      id: '1740993980778'
+      position:
+        x: 942
+        y: 432.5
+      positionAbsolute:
+        x: 942
+        y: 432.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data:
+          - id: key-value-16
+            key: ''
+            type: text
+            value: '{
+
+              "username": "{{#1740993698490.username#}}",
+
+              "verify_code":"{{#1740993698490.verify_code#}}",
+
+              "chat_input":""
+
+              }'
+          type: json
+        desc: ''
+        headers: ''
+        method: post
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: false
+          retry_interval: 100
+        selected: false
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: HTTP 请求 3
+        type: http-request
+        url: http://192.168.110.39:2222/verify/
+        variables: []
+      height: 109
+      id: '1740994031833'
+      position:
+        x: 638
+        y: 435.5
+      positionAbsolute:
+        x: 638
+        y: 435.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    viewport:
+      x: -351.29999999999995
+      y: 14
+      zoom: 0.7
