@@ -12,14 +12,14 @@ from selenium.webdriver.common.keys import Keys
 from markdownify import markdownify as md
 from bs4 import BeautifulSoup
 # 配置区
-URL = "https://chat.baidu.com/search"
+URL = "https://yuanbao.tencent.com/chat/"
 USER = '18777128615'
 PWD = 'a18777128615'
 USER_DATA_DIR = "C:\\Users\\YOUYU-PUBLIC\\AppData\Local\\Google\\Chrome\\User Data\\Profile 1" 
 INPUT_MODE = "cli"  # cli|file|auto
 MESSAGE_FILE = "messages.txt"  
 
-class BaiduChatBot:
+class yuanbaoChatBot:
     def __init__(self):
         self.driver = self._init_driver()
         self.wait = WebDriverWait(self.driver, 60, poll_frequency=0.5)
@@ -27,31 +27,38 @@ class BaiduChatBot:
 
     def _init_driver(self):
         """浏览器初始化"""
-        options = webdriver.ChromeOptions()
-        options.add_argument(f"--user-data-dir={USER_DATA_DIR}")
+        # options = webdriver.ChromeOptions()
+        # options.add_argument(f"--user-data-dir={USER_DATA_DIR}")
         # options.add_argument("--disable-infobars")
         driver = webdriver.Chrome()
         # driver.execute_cdp_cmd("Network.enable", {})
         return driver
     def login(self):
         self.driver.get(URL)
-        self.wait.until(EC.presence_of_element_located((By.CLASS_NAME, "login-btn"))).click()
+        self.wait.until(EC.presence_of_element_located((By.CLASS_NAME, "agent-dialogue__tool"))).click()
         print("开始登录操作...")
-        self.wait.until(EC.presence_of_element_located((By.ID, "TANGRAM__PSP_11__isAgree"))).click()
+        time.sleep(random.uniform(0.5, 0.7))
+        self.wait.until(EC.presence_of_element_located((By.CLASS_NAME, "t-radio-button")))
+        switch_btn = self.driver.find_elements(By.CLASS_NAME, "t-radio-button")
+        print('选择手机号登录...')
+        switch_btn[1].click()
+        time.sleep(random.uniform(0.5, 0.7))
+        # 勾选协议框
+        self.wait.until(EC.presence_of_element_located((By.CLASS_NAME, "t-checkbox__input"))).click()
         print("正在输入账号...")
-        self.wait.until(EC.presence_of_element_located((By.ID, "TANGRAM__PSP_11__userName"))).send_keys(USER)
-        print("正在输入密码...")
-        self.wait.until(EC.presence_of_element_located((By.ID, "TANGRAM__PSP_11__password"))).send_keys(PWD)
-        print("正在登录...")
-        self.wait.until(EC.presence_of_element_located((By.ID, "TANGRAM__PSP_11__submit"))).click()
-        #程序打开网页后20秒内手动登陆账户
-        time.sleep(30)
-        import json
-        with open('cookies.txt','w') as cookief:
-            #将cookies保存为json格式
-            cookief.write(json.dumps(self.driver.get_cookies()))
-        print("cookies保存成功")
+        self.wait.until(EC.presence_of_element_located((By.CLASS_NAME, "t-input__inner"))).send_keys(USER)
+        time.sleep(random.uniform(0.5, 0.7))
+        self.wait.until(EC.presence_of_element_located((By.CLASS_NAME, "hyc-phone-login__send-code"))).click()
+        print("正在获取验证码...")
+
+    def verify(self,verify_code):
+        self.wait.until(EC.presence_of_element_located((By.CLASS_NAME, "t-input__inner")))
+        time.sleep(random.uniform(0.5, 0.7))
+        self.driver.find_elements(By.CLASS_NAME, "t-input__inner")[1].send_keys(verify_code)
+        time.sleep(random.uniform(0.5, 0.7))
+        self.wait.until(EC.presence_of_element_located((By.CLASS_NAME, "hyc-phone-login__btn"))).click()
         print("登录成功")
+
     def login_with_cookie(self):
         self.driver.get(URL)
         
@@ -206,10 +213,12 @@ class BaiduChatBot:
         #     print(f"发送失败: {str(e)}")
         #     submit_button.click() 
 if __name__ == "__main__":
-    bot = BaiduChatBot()
-    # bot.login()
+    bot = yuanbaoChatBot()
+    bot.login()
+    verify_code = input("请输入验证码：")
+    bot.verify(verify_code)
     # bot.login_with_cookie()
     # bot.start_chat()
-    bot.check_R1_and_internet()
+    # bot.check_R1_and_internet()
     # finally:
     #     bot.driver.quit()
