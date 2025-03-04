@@ -38,7 +38,7 @@ class yuanbaoChatBot:
         return driver
     def login(self,username):
         self.driver.get(URL)
-        self.wait.until(EC.presence_of_element_located((By.CLASS_NAME, "agent-dialogue__tool"))).click()
+        self.wait.until(EC.presence_of_element_located((By.CLASS_NAME, "agent-dialogue__tool__login"))).click()
         print("开始登录操作...")
         time.sleep(random.uniform(0.5, 0.7))
         self.wait.until(EC.presence_of_element_located((By.CLASS_NAME, "t-radio-button")))
